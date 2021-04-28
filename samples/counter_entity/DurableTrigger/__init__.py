@@ -4,7 +4,7 @@ from azure.durable_functions import DurableOrchestrationClient
 import azure.functions as func
 
 
-async def main(req: func.HttpRequest, starter: str, message):
+async def main(req: func.HttpRequest, starter: str):
     """This function starts up the orchestrator from an HTTP endpoint
 
     starter: str
@@ -26,5 +26,8 @@ async def main(req: func.HttpRequest, starter: str, message):
     logging.info(starter)
     client = DurableOrchestrationClient(starter)
     instance_id = await client.start_new(function_name)
-    response = client.create_check_status_response(req, instance_id)
-    message.set(response)
+    response = await client.wait_for_completion_or_create_check_status_response(req, instance_id, 30000);
+    if type(response) is func.HttpResponse:
+        return response
+    else:
+        return func.HttpResponse(f"Result = {response}")
