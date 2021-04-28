@@ -8,17 +8,6 @@ import azure.durable_functions as df
 volatile_count = 0
 
 def entity_function(context: df.DurableEntityContext):
-    """A Counter Durable Entity.
-
-    A simple example of a Durable Entity that implements
-    a simple counter.
-
-    Parameters
-    ----------
-    context (df.DurableEntityContext):
-        The Durable Entity context, which exports an API
-        for implementing durable entities.
-    """
 
     # we use the global variable for the volatile count
     global volatile_count
@@ -28,7 +17,6 @@ def entity_function(context: df.DurableEntityContext):
 
     operation = context.operation_name
 
-    
     if operation == "add": 
         # add the given argument to the count
         amount = context.get_input()
@@ -37,8 +25,8 @@ def entity_function(context: df.DurableEntityContext):
 
     elif operation == "reset":
         # reset the count
-        current_value = 0
-        a = 0
+        volatile_count = 0
+        persistent_count = 0
 
     elif operation == "get":
         # get the current count
