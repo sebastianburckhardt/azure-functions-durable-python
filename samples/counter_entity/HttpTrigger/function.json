@@ -1,12 +1,12 @@
 {
-  "scriptFile": "__init__.py",
+  "scriptFile": "httptrigger.py",
   "bindings": [
     {
       "authLevel": "anonymous",
       "name": "req",
       "type": "httpTrigger",
       "direction": "in",
-      "route": "orchestrators/{functionName}",
+      "route": "counter",
       "methods": [
         "post",
         "get"
